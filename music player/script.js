@@ -32,12 +32,12 @@ let music=[
         artist:"Highway",
         cover:"ghorgari image.jpg",   
     },
-    {
-        path:"purnota.mp3",
-        name:"Purnota",
-        artist:"Warfaze",
-        cover:"purnota image.jpg",   
-    }
+    // {
+    //     path:"purnota.mp3",
+    //     name:"Purnota",
+    //     artist:"Warfaze",
+    //     cover:"purnota image.jpg",   
+    // }
 
     
 ];

@@ -15,8 +15,8 @@
 }
 
 .container{
-    height: 95vh;
-    width: 25vw;
+    height: 92vh;
+    width: 50vh;
     
     background: rgb(31,30,30);
     background: radial-gradient(circle, rgba(31,30,30,1) 7%, rgba(134,134,134,1) 67%, rgba(74,74,74,1) 100%);
@@ -32,27 +32,29 @@
 
 }
 h2{
+    font-size: 5vh;
     color: white;
-    margin: 1rem;
+    margin: 3vh;
     text-shadow: 3px 1px 2px black;
 }
 h3{
     color: white;
-    margin: 1rem;
+    margin: 3vh;
+    font-size: 3vh;
     margin-top:0;
     text-shadow: 3px 1px 2px black;
 }
 .player{
     height: 7vh;
-    width: 20vw;
+    width: 43vh;
     background-color: none;
     display: flex;
     justify-content: space-around;
     margin: 2rem;
 }
 .box{
-    height: 40vh;
-    width:21vw;
+    height: 45vh;
+    width:45vh;
     border-radius: 2rem;
     background-color:white;
     display: flex;
@@ -72,8 +74,8 @@ h3{
     
 }
 .circle{
-    height: 15.7vw;
-    width: 15.7vw;
+    height: 35vh;
+    width: 35vh;
     background-color: red;
     border-radius: 9rem;
     border: 5px solid gray;
@@ -119,7 +121,7 @@ body{
 .player_progress{
     border-color: white;
     background-color: white;
-    height: 6px;
+    height: .6vh;
     width: 80%;
     border-radius: 3rem;
     margin-top: 1.5rem;
@@ -140,6 +142,7 @@ body{
     top: -25px;
 }
 #current_time,#duration{
+    font-size: 2.5vh;
     color: white;
     text-shadow: 2px 3px 2px black;
 }
