@@ -1,0 +1,9 @@
+body{
+    background-image: url("https://img.freepik.com/premium-photo/blue-sky-backgroud-with-cloud_410516-2471.jpg?size=626&ext=jpg");
+    /* background-image: url("https://images.ctfassets.net/hrltx12pl8hq/6bTvduuBDRZTU4J0dfjoLS/180fba3c8b0f990da177f2f2654bc820/0_hero.webp?fit=fill&w=600&h=1200"); */
+    background-size: cover;
+}
+*{
+    margin: 0;
+    
+}
