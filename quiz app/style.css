@@ -1,0 +1,87 @@
+*{
+  color: white;
+  border=0;
+  margin=0;
+}
+
+body{
+  display: flex ;
+  justify-content: center;
+  align-items:center;
+  min-height: 100vh;
+  flex-direction:column;
+  flex-wrap: wrap;
+  flex-gap:2vh;
+  background-image: url("pexels-nicole-avagliano-1132392-2236713.jpg");
+  background-size: cover;
+  -webkit-backdrop-filter: blur(30px);
+  
+  }
+
+.container{
+  height: 80vh;
+  width: 80vw;
+  box-shadow:2px 3px 20px gray;
+  margin:2vh;
+  display: block;
+  justify-content:center;
+  align-items:center;
+  border-radius:5vh;
+  -webkit-backdrop-filter:blur(50px);
+  background: rgb(24,24,24);
+background: linear-gradient(47deg, rgba(24,24,24,1) 0%, rgba(0,9,41,1) 51%, rgba(28,28,28,1) 81%, rgba(0,0,0,1) 100%);
+
+
+}
+#heading{
+  display: flex;
+  justify-content:space-around;
+  align-items:center;
+}
+#box{
+  display: flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height: 80%;
+  width: 90%;
+  align-text:center;
+  margin-left: 3.5vw;
+}
+
+#options{
+  display: grid;
+  justify-content:space-around;
+  margin-top: 3vh;
+  grid-template-rows:repeat(2,12vh);
+  grid-template-columns:repeat(2,33vw);
+  height: 50%;
+  width: 100%;
+}
+
+.opt{
+  background-color:red;
+  margin: 2vh;
+  border-radius: 2rem;
+  box-shadow:2px 3px 15px gray;
+  align-text:center;
+  padding: 2vh 0 0 0;
+  text-align:center;
+}
+#question::-webkit-scrollbar {
+  display: none;
+}
+#question{
+  text-align:center;
+  padding: 3vh;
+  box-shadow:2px 3px 16px gray;
+  background-color: blue;
+  height: 17vh;
+  width: 85%;
+  text-decoration:none;
+  font-size:5vh;
+  overflow-y: scroll;
+  border-radius:2vh;
+  align-items:center;
+}
+
