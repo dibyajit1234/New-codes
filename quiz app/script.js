@@ -25,25 +25,28 @@ newer.addEventListener(('click'),()=>{
   container.classList.remove("hide");
   butt.classList.remove("hide");
   start.style.display = "none";
-  get().then((a)=>{
-    console.log(a);
-    let n;
+  try{
+    get().then((a)=>{
+      console.log(a);
+      let n;
+    
+   for(let i=0;i<4;i++){
+      if(a.results[i].type==="boolean"){
+        continue;
+      }
+      else{
+        question.innerHTML="Q . "+a.results[i].question;
+      }
   
- for(let i=0;i<4;i++){
-    if(a.results[i].type==="boolean"){
-      continue;
-    }
-    else{
-      question.innerHTML="Q . "+a.results[i].question;
-    }
+        n=i;
+      }
+  
+      option_sort(a.results[n].incorrect_answers[0],a.results[n].incorrect_answers[1],a.results[n].incorrect_answers[2],a.results[n].correct_answer,op1,op2,op3,op4,n);
+   });
+  }catch(error){
+    alert("some error occured, please try again!");
+  }
 
-      n=i;
-    }
-
-    option_sort(a.results[n].incorrect_answers[0],a.results[n].incorrect_answers[1],a.results[n].incorrect_answers[2],a.results[n].correct_answer,op1,op2,op3,op4,n);
-
-
- })
 })
 
 option.forEach((element)=>{
@@ -75,7 +78,7 @@ next.addEventListener(('click'),()=>{
     selected.style.backgroundColor="rgb(0, 153, 255)";
     green.style.backgroundColor="rgb(0, 153, 255)";
   }catch(error){
-    console.error("some error occured");
+    console.error("some error occured, please try again!");
 
   }
 
@@ -92,17 +95,21 @@ next.addEventListener(('click'),()=>{
   get().then((a)=>{
     console.log(a);
     let n;
-  
+  try{
     for(let i=0;i<4;i++){
-        if(a.results[i].type==="boolean"){
-          continue;
-        }
-        else{
-          question.innerHTML="Q . "+a.results[i].question;
-        }
-
-        n=i;
+      if(a.results[i].type==="boolean"){
+        continue;
       }
+      else{
+        question.innerHTML="Q . "+a.results[i].question;
+      }
+
+      n=i;
+    };
+  }catch(errer){
+    alert("some error occured!");
+  }
+
 
     option_sort(a.results[n].incorrect_answers[0],a.results[n].incorrect_answers[1],a.results[n].incorrect_answers[2],a.results[n].correct_answer,op1,op2,op3,op4,n);
  })
