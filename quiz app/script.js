@@ -69,35 +69,42 @@ submit.addEventListener(('click'),()=>{
 })
 
 next.addEventListener(('click'),()=>{
-  let selected=document.querySelector(".selected");
-  let green=document.querySelector(".green");
-  selected.style.backgroundColor="rgb(0, 153, 255)";
-  green.style.backgroundColor="rgb(0, 153, 255)";
-  
-  option.forEach(element=>{
-    element.classList.remove('green');
-    element.classList.remove('selected');
-  })
+  try{
+    let selected=document.querySelector(".selected");
+    let green=document.querySelector(".green");
+    selected.style.backgroundColor="rgb(0, 153, 255)";
+    green.style.backgroundColor="rgb(0, 153, 255)";
+  }catch(error){
+    console.error("some error occured");
+
+  }
+
+
+  try{
+    option.forEach(element=>{
+      element.classList.remove('green');
+      element.classList.remove('selected');
+    });
+  } catch(error){
+    console.error("somethig occured");
+  }
+
   get().then((a)=>{
     console.log(a);
     let n;
   
-  for(let i=0;i<4;i++){
-      if(a.results[i].type==="boolean"){
-        continue;
-      }
-      else{
-        question.innerHTML="Q . "+a.results[i].question;
-      }
+    for(let i=0;i<4;i++){
+        if(a.results[i].type==="boolean"){
+          continue;
+        }
+        else{
+          question.innerHTML="Q . "+a.results[i].question;
+        }
 
-      n=i;
-    }
-
+        n=i;
+      }
 
     option_sort(a.results[n].incorrect_answers[0],a.results[n].incorrect_answers[1],a.results[n].incorrect_answers[2],a.results[n].correct_answer,op1,op2,op3,op4,n);
-
-
-
  })
 })
 
@@ -121,3 +128,4 @@ for(let i=0;i<y.length;i++){
 }
   console.log(x);
 }
+
