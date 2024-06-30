@@ -1,5 +1,5 @@
 const a = "https://opentdb.com/api.php?amount=4";
-// const url="http://api.weatherapi.com/v1/current.json?key=fc71dce7dd2540b2af7150945241506&q=India&aqi=no";
+
 
 async function get (){
   let b=await fetch(a);
@@ -30,9 +30,12 @@ newer.addEventListener(('click'),()=>{
     let n;
   
  for(let i=0;i<4;i++){
-      if(a.results[i].type==="multiple"){
-        question.innerHTML="Q . "+a.results[i].question;
-      }
+    if(a.results[i].type==="boolean"){
+      continue;
+    }
+    else{
+      question.innerHTML="Q . "+a.results[i].question;
+    }
 
       n=i;
     }
@@ -61,44 +64,43 @@ submit.addEventListener(('click'),()=>{
   let green=document.querySelector(".green");
   selected.style.backgroundColor="red";
   green.style.backgroundColor="green";
-  disable_btn();
+
 
 })
 
-
 next.addEventListener(('click'),()=>{
+  let selected=document.querySelector(".selected");
+  let green=document.querySelector(".green");
+  selected.style.backgroundColor="rgb(0, 153, 255)";
+  green.style.backgroundColor="rgb(0, 153, 255)";
+  
+  option.forEach(element=>{
+    element.classList.remove('green');
+    element.classList.remove('selected');
+  })
   get().then((a)=>{
     console.log(a);
     let n;
   
   for(let i=0;i<4;i++){
-      if(a.results[i].type==="multiple"){
+      if(a.results[i].type==="boolean"){
+        continue;
+      }
+      else{
         question.innerHTML="Q . "+a.results[i].question;
       }
 
       n=i;
     }
 
+
     option_sort(a.results[n].incorrect_answers[0],a.results[n].incorrect_answers[1],a.results[n].incorrect_answers[2],a.results[n].correct_answer,op1,op2,op3,op4,n);
 
 
+
  })
-
-let selected=document.querySelector(".selected");
-let green=document.querySelector(".green");
-selected.style.backgroundColor="rgb(0, 153, 255)";
-green.style.backgroundColor="rgb(0, 153, 255)";
-
-
 })
 
-
-
-function disable_btn(){
-  for(let j of option){
-    j.disabled=true;
-  }
-}
 
 function option_sort(a,b,c,d,m,n,o,p,l){
   let x=[a,b,c,d];
