@@ -81,8 +81,15 @@ background: linear-gradient(47deg, rgba(24,24,24,1) 0%, rgba(0,9,41,1) 51%, rgba
   padding: 2vh 0 0 0;
   color: black;
   text-shadow:4px 4px 4px white;
-  font-size: 1.5rem;
+  font-size: auto;
   text-align:center;
+  overflow-y: none;
+  height: fixed;
+  overflow-x: scroll;
+  overflow-y: none;
+}
+.opt::-webkit-scrollbar {
+  display: none;
 }
 #question::-webkit-scrollbar {
   display: none;
@@ -159,4 +166,7 @@ button{
   border-radius: 4vh;
   color: black;
   padding: 3vh;
+}
+.start p{
+  margin: 15vh;
 }
