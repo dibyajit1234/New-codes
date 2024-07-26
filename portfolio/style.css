@@ -3,12 +3,19 @@
     margin: 0;
     font-family: Open Sans;
 }
+html{
+    scroll-behavior: smooth;
+}
 body{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     /* margin: 1vh 2vw 0 2vw; */
+}
+a{
+    text-decoration: none;
+    color: white;
 }
 nav{
     display: flex;
@@ -42,9 +49,10 @@ nav{
 }
 #containt h2{
     color: rgb(69, 7, 150);
+    transition: 0.5s;
 }
 #containt h2:hover{
-    font-size: 2.4rem;
+    transform: scale(1.5);
 }
 #darkmode{
     background-color: white;
@@ -102,6 +110,7 @@ nav{
     background-color: rgb(69, 7, 150);
     width: 100%;
     color: white;
+
 }
 #intro h3, p{
     padding: 20px;
@@ -144,9 +153,7 @@ nav{
     
     font-weight: bold;
 }
-/* #symbol{
-    font-size: 30px;
-} */
+
  .fa-solid{
     font-size: 30px;
  }
@@ -175,37 +182,132 @@ nav{
     display: grid;
     grid-template-columns: repeat(2,50%);
     grid-template-rows: repeat(3,33.3%);
-
-    width: 70%;
+    width: 80%;
     height: 180vh;
     grid-gap: 30px;
 }
 .devision{
+    box-shadow: 2px 3px 8px gray;
+    transform-style: preserve-3d;
+    transition: 1s;
+}   
+.devision:hover{
+    transform: rotateY(180deg);
+}
+.devision:hover .back{
+    z-index: 0;
+}
 
+.content{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+}
+.hidden{
+    opacity: 0;
+    transition: all 1;
+}
+.show{
+    opacity: 1;
+    transition: all 2s;
+}
+ .front,.back{
+    height: 100%;
+    /* border: 2px solid blue; */
+    width: 100%;
+    position: absolute;
+    background-size: cover;
+
+}
+.front{
+    background-image: url("top-view-notebooks-calculator_23-2149103982.avif");
+}
+.back{
+    transform: rotateY(180deg);
+    box-shadow: 1px 2px 10px gray;
+    z-index: -1;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    color: white;
+    text-align: center;
+} 
+.back h1{
+    padding: 50px;
 }
-#first,#second,#third,#forth,#fifth,#sixth{
-    opacity: 70%;
-    border-radius: 20px;
-    box-shadow: 1px 2px 8px gray;
-}
-#first{
-    background-image: url(top-view-notebooks-calculator_23-2149103982.avif);
-    background-size: cover;   
-}
-#first:hover{
+
+#first_back{
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
     
-    background-color: brown;
-    background-image: none;
+    backdrop-filter: blur(100px);
 }
-.hidden{
-    opacity: 0;
-    transition: all 0;
+#second_front{
+    background-image: url("istockphoto-1312747110-612x612.jpg");
 }
-.show{
-    opacity: 1;
-    transition: all 1s;
+#second_back{
+    background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+
+}
+
+
+
+
+button{
+    height: 2.5rem;
+    width: 7rem;
+
+    border-radius: 1.5rem;
+    background-color: rgb(83, 81, 81);
+    color: white;
+    font-weight: bold;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+}
+button:hover{
+    background-color: rgb(205, 255, 23);
+    box-shadow: 1px 1px 12px white;
+}
+button:hover a{
+    color: black;
+}
+
+
+
+#conclution{
+    background-color: rgb(69, 7, 150);
+    width: 100%;
+    height: 50vh;
+    padding: 3vw;
+    margin-top: 15vh;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#links{
+    width: 20vw;
+
+    display: flex;
+    justify-content: space-evenly;
+}
+#links a{
+    text-decoration: none;
+    color: white;
+    font-size: 30px;
+}
+#gmail{
+    font-size: 100px;
+}
+#conclution h2{
+    font-size: 200%;
 }
