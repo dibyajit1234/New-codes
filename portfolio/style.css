@@ -187,7 +187,7 @@ nav{
     grid-gap: 30px;
 }
 .devision{
-    box-shadow: 2px 3px 8px gray;
+    box-shadow: 2px 3px 18px gray;
     transform-style: preserve-3d;
     transition: 1s;
 }   
@@ -237,6 +237,9 @@ nav{
 } 
 .back h1{
     padding: 50px;
+    font-family: "Cookie", cursive;
+    font-size: 3rem;
+    font-weight: 800;
 }
 
 #first_back{
@@ -251,8 +254,39 @@ nav{
 #second_back{
     background-color: #0093E9;
     background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+}
+#third_front{
+    background-image: url("istockphoto-168678735-612x612.jpg");
+}
+#third_back{
+    background-color: #00DBDE;
+    background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+    
+}
+#forth_back{
+    background-color: #FFE53B;
+    background-image: linear-gradient(147deg, #FFE53B 0%, #FF2525 74%);
+}
+#forth_front{
+    background-image: url("gettyimages-460149761-612x612.jpg");
+}
+#fifth_front{
+    background-image: url("360_F_84602505_CbgZtlxEktGN0wfLfTQMuRNvBau4mujo.jpg");
+}
+#fifth_back{
+    background-color: #52ACFF;
+background-image: linear-gradient(180deg, #52ACFF 25%, #FFE32C 100%);
 
 }
+#sixth_front{
+    background-image: url("clouds-1768967_640.jpg");
+}
+#sixth_back{
+    background-color: #FBDA61;
+background-image: linear-gradient(45deg, #FBDA61 0%, #FF5ACD 100%);
+
+}
+
 
 
 
