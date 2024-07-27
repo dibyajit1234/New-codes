@@ -11,7 +11,6 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* margin: 1vh 2vw 0 2vw; */
 }
 a{
     text-decoration: none;
@@ -54,24 +53,42 @@ nav{
 #containt h2:hover{
     transform: scale(1.5);
 }
-#darkmode{
+ label{
     background-color: white;
     border-radius: 4rem;
     border: 2px solid gray;
     height: 20px;
     padding: 2px;
-    width: 40px;
+    width: 50px;
     display: flex;
-    
-    
-}
-.dot{
-    background-color: gray;
+    flex-direction: column;
+    transition: 1s;
+} 
+label::after{
+    content: "";
     height: 20px;
     width: 20px;
+    background-color: gray;
     border-radius: 50%;
+    transition: 1s;
 }
-
+input{
+    height: 0;
+    width: 0;
+    visibility: none;
+}
+input:checked + label{
+    background: gray;
+}
+input:checked + label::after{
+    transform: translateX(150%);
+    background: white;
+    left: 50px;
+}
+input:checked + #heading{
+    background: gray;
+    color: blue;
+}
 .box{
     height: 80vh;    
     opacity: 0;
@@ -82,15 +99,9 @@ nav{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
-
 }
-/* img{
-    display: none;
-} */
 #heading h1{
     color: rgb(15, 1, 66);
-
 }
  .picture{
     height: 30vh ;
@@ -124,7 +135,6 @@ nav{
     display: grid;
     grid-template-columns: repeat(3,33.33%);
     margin: -18vh 7vw 1vh 7vw;
-    /* border: 1px solid black; */
     border-radius: 15px;
     padding: 30px;
     text-align: center;
@@ -238,8 +248,11 @@ nav{
 .back h1{
     padding: 50px;
     font-family: "Cookie", cursive;
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 800;
+}
+.back{
+    background: cover;
 }
 
 #first_back{
@@ -286,9 +299,6 @@ background-image: linear-gradient(180deg, #52ACFF 25%, #FFE32C 100%);
 background-image: linear-gradient(45deg, #FBDA61 0%, #FF5ACD 100%);
 
 }
-
-
-
 
 
 button{
