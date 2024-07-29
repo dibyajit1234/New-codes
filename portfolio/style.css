@@ -11,6 +11,7 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    user-select: none;
 }
 a{
     text-decoration: none;
@@ -105,7 +106,7 @@ input:checked + #heading{
     width: 30vh;
     border-radius: 50%;
     border: 3px solid lightgray;
-    box-shadow: 1px 1px 15px gray;
+    box-shadow: 1px 1px 30px rgb(69, 7, 150);
     background-size: cover;
     background-image: url("summer-anime-girl-pool-aesthetic-desktop-wallpaper.jpg");
     margin-top: 20px;
@@ -349,6 +350,6 @@ button:hover a{
 #gmail{
     font-size: 100px;
 }
-#conclution h2{
-    font-size: 200%;
+#conclution h1{
+    text-align: center;
 }
