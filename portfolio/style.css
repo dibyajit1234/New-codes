@@ -17,6 +17,22 @@ a{
     text-decoration: none;
     color: white;
 }
+.opening{
+    height: 10vh;
+    width: 10vw;
+    background-color: black;
+    z-index: 3;
+    visibility: none;
+    animation: move 1s alternate linear;
+}
+@keyframes move{
+    from{
+        transform: translateY(0);
+    }
+    to{
+        transform: translateY(-100px);
+    }
+}
 nav{
     display: flex;
     width: 90%;
@@ -338,7 +354,6 @@ button:hover a{
 }
 #links{
     width: 20vw;
-
     display: flex;
     justify-content: space-evenly;
 }
@@ -350,6 +365,143 @@ button:hover a{
 #gmail{
     font-size: 100px;
 }
-#conclution h1{
+#conclution p{
     text-align: center;
+}
+#conc{
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    font-size: 50px;
+}
+
+@media  screen and (max-width:600px)
+{
+    .box{
+        height: 60vh;    
+        transition: all 1;
+    }
+    nav{
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 1px;
+    }
+    #containt{
+        display: flex;
+        justify-content: space-evenly;
+        width: 70%;
+        background-color: none ;
+        align-items: center;
+        height: 90%;
+        font-size: 13px;
+    }
+    input:checked + label::after{
+        transform: translateX(100%);
+        background: white;
+        left: 50px;
+    }
+    label{
+        background-color: white;
+        border-radius: 4rem;
+        border: 2px solid gray;
+        height: 12px;
+        padding: 1px;
+        width: 24px;
+        display: flex;
+        flex-direction: column;
+        transition: 1s;
+    } 
+    label::after{
+        content: "";
+        height: 12px;
+        width: 12px;
+        background-color: gray;
+        border-radius: 50%;
+        transition: 1s;
+    }
+    /* #heading{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    } */
+    #heading h1{
+        color: rgb(15, 1, 66);
+        font-size: 1.5rem;
+    }
+     .picture{
+        height: 30vh ;
+        width: 30vh;
+        border-radius: 50%;
+        border: 3px solid lightgray;
+        box-shadow: 1px 1px 30px rgb(69, 7, 150);
+        background-size: cover;
+        background-image: url("summer-anime-girl-pool-aesthetic-desktop-wallpaper.jpg");
+        margin-top: 20px;
+    }
+    #intro{
+        height: 50vh;
+    }
+    
+    .new{
+        display: block;
+        margin: 5vh 7vw 1vh 7vw;
+        border-radius: 15px;
+        justify-content: space-evenly;
+        padding: 7px;
+        text-align: center;
+        background-color: white;
+        box-shadow: 2px 2px 8px gray;
+        height: 150vh;
+    }
+    .inner{  
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        height: 33.33%; 
+        padding-top: 5px;
+    }
+    #small{
+        display: grid;
+        grid-template-columns: repeat(1,100%);
+        grid-template-rows: repeat(6,15.6%);
+        width: 80%;
+        height: 250vh;
+        grid-gap: 10px;
+    }
+    .back h1{
+        font-size: 25px;
+    }
+    #conclution{
+        background-color: rgb(69, 7, 150);
+        width: 100%;
+        height: 40vh;
+        padding: 3vw;
+        margin-top: 0.01vh;
+        text-align: center;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+    #conc{
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 20px;
+    }
+    #links a{
+        text-decoration: none;
+        color: white;
+        font-size: 15px;
+    }
+    #links{
+        width: 40vw;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    #border{
+        border: none;
+    }
+    
 }

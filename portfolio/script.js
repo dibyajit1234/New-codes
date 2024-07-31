@@ -18,6 +18,8 @@ const second_a =document.querySelector("#second_a");
 const picture=document.querySelector(".picture");
 const intro=document.querySelector("#intro");
 const h4=document.querySelectorAll("h4");
+const conc=document.getElementById("conc");
+const head=document.querySelectorAll(".back h1")
 hiddenElements.forEach((el)=> observer.observe(el));
 
 
@@ -30,6 +32,7 @@ darkmode.addEventListener("click",()=>{
          body.style.color='white';
          man.style.backgroundColor="#2E3436";
          h1.style.color="#A800FF";
+
          h2.forEach((el)=>{
             el.style.color="#A800FF";
          })
@@ -38,6 +41,9 @@ darkmode.addEventListener("click",()=>{
          picture.style.boxShadow="1px 1px 30px white";
          h4.forEach((el)=>{
             el.style.color="#A800FF";
+         })
+         head.forEach((el)=>{
+            el.style.color=("white");
          })
     }else{
         h4.forEach((el)=>{
@@ -53,5 +59,6 @@ darkmode.addEventListener("click",()=>{
          first_a.style.color="black";
          second_a.style.color="black";
          picture.style.boxShadow="1px 1px 30px rgb(69, 7, 150)";
+         conc.style.color="white";
     }
 })
