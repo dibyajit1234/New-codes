@@ -1,73 +1,49 @@
 package com.dibyajit.terragraphbackend.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Root user entity. One user → many architecture sessions.
+ */
 @Entity
 @Table(name = "users")
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id",nullable = false,updatable = false)
-    private UUID id;
-    @Column(name = "userName",nullable = false)
-    private String userName;
-    @Column(name="email",nullable = false)
+    @Column(name = "id", nullable = false, updatable = false, length = 36)
+    private String id;
+
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name="created",nullable = false)
-    private LocalDateTime created;
 
-    public User() {
-    }
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    public User(UUID id, String userName, String email, LocalDateTime created) {
-        this.id = id;
-        this.userName = userName;
-        this.email = email;
-        this.created = created;
-    }
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-    public UUID getId() {
-        return id;
-    }
+    // ── Relationships ────────────────────────────────────────────────────────
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<ArchitectureSession> sessions = new ArrayList<>();
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", created=" + created +
-                '}';
+    // ── Lifecycle Hooks ──────────────────────────────────────────────────────
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
     }
 }

@@ -1,0 +1,139 @@
+/* =============================================================================
+   Cloud Service Node — Custom React Flow Node Styles
+   ============================================================================= */
+
+.cloud-node {
+  min-width: 140px;
+  padding: 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  cursor: grab;
+  overflow: hidden;
+}
+
+.cloud-node:hover {
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.cloud-node.selected {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 2px var(--color-accent-glow), var(--shadow-card);
+}
+
+/* ── Node Header (coloured by service type) ────────────────────────────────── */
+.cloud-node__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cloud-node__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.cloud-node__type-badge {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ── Node Body ──────────────────────────────────────────────────────────────── */
+.cloud-node__body {
+  padding: 10px 14px 12px;
+}
+
+.cloud-node__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.cloud-node__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cloud-node__meta-item {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cloud-node__meta-item span {
+  color: var(--color-text-secondary);
+}
+
+/* ── React Flow Handles ──────────────────────────────────────────────────────── */
+.react-flow__handle {
+  width: 10px !important;
+  height: 10px !important;
+  background: var(--color-accent-primary) !important;
+  border: 2px solid var(--color-bg-base) !important;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.4) !important;
+  background: var(--color-accent-secondary) !important;
+}
+
+/* ── Service-specific accent colours ────────────────────────────────────────── */
+.node-accent--ec2    { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+.node-accent--rds    { background: rgba(99, 179, 237, 0.15); color: #63b3ed; }
+.node-accent--s3     { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+.node-accent--lambda { background: rgba(167, 139, 250, 0.15); color: #a78bfa; }
+.node-accent--vpc    { background: rgba(251, 191, 36, 0.15);  color: #fbbf24; }
+.node-accent--alb    { background: rgba(239, 68, 68, 0.15);   color: #ef4444; }
+.node-accent--sns    { background: rgba(232, 121, 249, 0.15); color: #e879f9; }
+.node-accent--sqs    { background: rgba(96, 165, 250, 0.15);  color: #60a5fa; }
+.node-accent--default { background: rgba(148, 163, 184, 0.1); color: #94a3b8; }
+
+/* ── Delete Button ───────────────────────────────────────────────────────────── */
+.cloud-node__delete {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-accent-red, #ef4444);
+  color: white;
+  border: 2px solid var(--color-bg-base);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.cloud-node__delete:hover {
+  transform: scale(1.1);
+  background: #dc2626;
+}

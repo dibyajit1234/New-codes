@@ -1,13 +1,15 @@
 package com.dibyajit.terragraphbackend.repository;
 
-import com.dibyajit.terragraphbackend.model.ArchitectureNodes;
+import com.dibyajit.terragraphbackend.model.ArchitectureNode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface NodeRepository extends JpaRepository<ArchitectureNodes, UUID> {
-    List<ArchitectureNodes> findBySessionId(String id);
+public interface NodeRepository extends JpaRepository<ArchitectureNode, String> {
+
+    List<ArchitectureNode> findBySessionId(String sessionId);
+
+    void deleteBySessionId(String sessionId);
 }

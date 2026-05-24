@@ -1,0 +1,141 @@
+terragraph-backend/
+├── pom.xml                                   # Spring Web, JPA, Spring AI, MySQL Driver, Flyway
+├── src/
+│   ├── main/
+│   │   ├── java/com/terragraph/
+│   │   │   ├── TerraGraphApplication.java    
+│   │   │   │
+│   │   │   ├── config/                       
+│   │   │   │   ├── AiConfig.java             # Sets up OpenAI ChatClient & EmbeddingClient
+│   │   │   │   ├── VectorStoreConfig.java    # Configures Spring AI to use MySQL 9.0 VECTOR
+│   │   │   │   └── CorsConfig.java           # Allows localhost:5173 (React) to connect
+│   │   │   │
+│   │   │   ├── controller/                   
+│   │   │   │   ├── ArchitectureController.java # POST /api/generate
+│   │   │   │   └── KnowledgeBaseController.java# POST /api/documents (Upload RAG docs)
+│   │   │   │
+│   │   │   ├── service/                      
+│   │   │   │   ├── RagRetrievalService.java  # Searches the `document_chunks` table
+│   │   │   │   ├── OrchestrationService.java # The Brain: Prompt + RAG -> LLM -> Saves to DB
+│   │   │   │   ├── DocumentIngestionService.java 
+│   │   │   │   └── TerraformCompilerService.java # Converts Nodes/Edges to .tf strings
+│   │   │   │
+│   │   │   ├── repository/                   # Spring Data JPA Interfaces
+│   │   │   │   ├── UserRepository.java
+│   │   │   │   ├── SessionRepository.java
+│   │   │   │   ├── NodeRepository.java       # Saves architecture_nodes
+│   │   │   │   ├── EdgeRepository.java       # Saves node_edges
+│   │   │   │   ├── DocumentRepository.java
+│   │   │   │   └── ChunkVectorRepository.java# Handles custom VECTOR queries
+│   │   │   │
+│   │   │   ├── model/                        # JPA Entities (Mapped to MySQL schema)
+│   │   │   │   ├── User.java
+│   │   │   │   ├── ArchitectureSession.java
+│   │   │   │   ├── ArchitectureNode.java     
+│   │   │   │   ├── NodeEdge.java             
+│   │   │   │   ├── KnowledgeDocument.java
+│   │   │   │   └── DocumentChunk.java        
+│   │   │   │
+│   │   │   ├── dto/                          # Strict JSON contracts for React
+│   │   │   │   ├── GenerateRequest.java      
+│   │   │   │   └── ReactFlowGraphDto.java    
+│   │   │   │
+│   │   │   └── exception/                    
+│   │   │       └── GlobalExceptionHandler.java 
+│   │   │
+│   │   └── resources/
+│   │       ├── application.yml               # MySQL URLs, API Keys, Server Port
+│   │       ├── prompts/                      
+│   │       │   └── system-architect.st       # The LLM instructions template
+│   │       │
+│   │       └── db/migration/                 # Flyway auto-executes these on startup
+│   │           └── V1__Init_Schema.sql       # The 6-table MySQL schema
+
+
+
+-------------------------Db structure:------------------------------------------
+
+CREATE TABLE users (
+    id VARCHAR(36) PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Architecture Sessions (Stores the parent project container)
+CREATE TABLE architecture_sessions (
+    id VARCHAR(36) PRIMARY KEY,
+    user_id VARCHAR(36) NOT NULL,
+    original_prompt TEXT NOT NULL,
+    generated_terraform LONGTEXT,
+    status VARCHAR(50) DEFAULT 'DRAFT', -- e.g., DRAFT, GENERATING, COMPLETED
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- ==============================================================================
+-- 2. GRAPH ARCHITECTURE (NORMALIZED REACT FLOW STATE)
+-- ==============================================================================
+
+-- Architecture Nodes (Stores the individual cloud services on the canvas)
+CREATE TABLE architecture_nodes (
+    id VARCHAR(36) PRIMARY KEY,
+    session_id VARCHAR(36) NOT NULL,
+    node_type VARCHAR(100) NOT NULL,    -- e.g., 'aws-ec2', 'aws-rds', 'aws-s3'
+    label VARCHAR(255) NOT NULL,        -- e.g., 'Web Server', 'Main Database'
+    
+    -- React Flow requires exact X/Y coordinates for the canvas UI
+    pos_x INT NOT NULL,
+    pos_y INT NOT NULL,
+    
+    -- Specific configurations for that node stored as JSON
+    node_metadata JSON,                 -- e.g., {"instance_type": "t3.micro", "encrypted": true}
+    
+    FOREIGN KEY (session_id) REFERENCES architecture_sessions(id) ON DELETE CASCADE
+);
+
+-- Node Edges (THE CORRELATION TABLE: Maps how services connect to each other)
+CREATE TABLE node_edges (
+    id VARCHAR(36) PRIMARY KEY,
+    session_id VARCHAR(36) NOT NULL,
+    source_node_id VARCHAR(36) NOT NULL,
+    target_node_id VARCHAR(36) NOT NULL,
+    
+    connection_type VARCHAR(100),       -- e.g., 'https-traffic', 'vpc-peering', 'iam-role'
+    is_animated BOOLEAN DEFAULT TRUE,   -- Tells React Flow to animate the connecting line
+    
+    FOREIGN KEY (session_id) REFERENCES architecture_sessions(id) ON DELETE CASCADE,
+    FOREIGN KEY (source_node_id) REFERENCES architecture_nodes(id) ON DELETE CASCADE,
+    FOREIGN KEY (target_node_id) REFERENCES architecture_nodes(id) ON DELETE CASCADE,
+    
+    -- Prevent duplicate identical connections between the exact same two nodes
+    UNIQUE KEY unique_edge (source_node_id, target_node_id)
+);
+
+-- ==============================================================================
+-- 3. THE RAG KNOWLEDGE BASE (VECTOR STORE)
+-- ==============================================================================
+
+-- Knowledge Documents (Metadata about the uploaded files, policies, or docs)
+CREATE TABLE knowledge_documents (
+    id VARCHAR(36) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    doc_type VARCHAR(100) NOT NULL,     -- e.g., 'AWS_DOCUMENTATION', 'INTERNAL_SECURITY'
+    author VARCHAR(255),
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Document Chunks (The actual vector data for AI semantic search)
+CREATE TABLE document_chunks (
+    id VARCHAR(36) PRIMARY KEY,
+    document_id VARCHAR(36) NOT NULL,
+    chunk_index INT NOT NULL,           -- Order of the paragraph in the document
+    content TEXT NOT NULL,              -- The readable text sent to the LLM context window
+    
+    -- MySQL 9.0 Vector column. 1536 is the exact dimension size for OpenAI's text-embedding-3-small
+    embedding VECTOR(1536) NOT NULL,    
+    
+    FOREIGN KEY (document_id) REFERENCES knowledge_documents(id) ON DELETE CASCADE
+);

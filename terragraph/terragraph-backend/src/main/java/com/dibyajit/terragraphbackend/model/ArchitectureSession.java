@@ -1,134 +1,71 @@
 package com.dibyajit.terragraphbackend.model;
 
-import com.dibyajit.terragraphbackend.model.enums.Status;
 import jakarta.persistence.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
+/**
+ * Represents a single architecture generation session.
+ * Contains the user's prompt, generated Terraform code, and
+ * the graph structure (nodes + edges) for React Flow rendering.
+ */
 @Entity
-@Table(name="architecture_session")
+@Table(name = "architecture_sessions", indexes = {
+        @Index(name = "idx_session_user",   columnList = "user_id"),
+        @Index(name = "idx_session_status", columnList = "status")
+})
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ArchitectureSession {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name="id",nullable = false,updatable = false)
-    private UUID id;
 
-    @ManyToOne
+    @Id
+    @Column(name = "id", nullable = false, updatable = false, length = 36)
+    private String id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @Column(name="original_prompt",nullable = false)
-    private String original_prompt;
+    @Column(name = "original_prompt", nullable = false, columnDefinition = "TEXT")
+    private String originalPrompt;
 
-    @Column(name="generated_terraform")
-    private String generated_terraform;
+    @Column(name = "generated_terraform", columnDefinition = "LONGTEXT")
+    private String generatedTerraform;
 
-    @Column(name="status",nullable = false)
-    private Status status=Status.getDefault();
+    @Column(name = "status", nullable = false, length = 50)
+    @Builder.Default
+    private String status = "DRAFT";
 
-    @Column(name = "created_at",nullable = false)
-    private LocalDateTime created_at;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-    @Column(name="updated_at")
-    private LocalDateTime updated_at;
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "sessionId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ArchitectureNodes> nodes;
+    // ── Relationships ────────────────────────────────────────────────────────
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<ArchitectureNode> nodes = new ArrayList<>();
 
-    public ArchitectureSession() {
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<NodeEdge> edges = new ArrayList<>();
+
+    // ── Lifecycle Hooks ──────────────────────────────────────────────────────
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        if (this.createdAt == null) this.createdAt = now;
+        if (this.updatedAt == null) this.updatedAt = now;
     }
 
-    public ArchitectureSession(UUID id, User user, String original_prompt, String generated_terraform, Status status, LocalDateTime created_at, LocalDateTime updated_at, List<ArchitectureNodes> nodes) {
-        this.id = id;
-        this.user = user;
-        this.original_prompt = original_prompt;
-        this.generated_terraform = generated_terraform;
-        this.status = status;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.nodes = nodes;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getOriginal_prompt() {
-        return original_prompt;
-    }
-
-    public void setOriginal_prompt(String original_prompt) {
-        this.original_prompt = original_prompt;
-    }
-
-    public String getGenerated_terraform() {
-        return generated_terraform;
-    }
-
-    public void setGenerated_terraform(String generated_terraform) {
-        this.generated_terraform = generated_terraform;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
-    }
-
-    public LocalDateTime getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(LocalDateTime updated_at) {
-        this.updated_at = updated_at;
-    }
-
-    public List<ArchitectureNodes> getNodes() {
-        return nodes;
-    }
-
-    public void setNodes(List<ArchitectureNodes> nodes) {
-        this.nodes = nodes;
-    }
-
-    @Override
-    public String toString() {
-        return "ArchitectureSession{" +
-                "id=" + id +
-                ", user=" + user +
-                ", original_prompt='" + original_prompt + '\'' +
-                ", generated_terraform='" + generated_terraform + '\'' +
-                ", status=" + status +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
-                ", nodes=" + nodes +
-                '}';
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 }
